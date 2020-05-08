@@ -10,13 +10,13 @@ class Print_gps:
     def __init__(self):
         rospy.init_node("print_gps")
 
-        # sub_gps = rospy.Subscriber(
-        #     "/mavros/global_position/global", NavSatFix, queue_size=1
-        # )  # Fra Ardupilot
-
         sub_gps = rospy.Subscriber(
-            "gps/fix", NavSatFix, self.print_gps, queue_size=1
-        )  # FakeGPS
+            "mavros/global_position/global", NavSatFix, self.print_gps, queue_size=1
+        )  # Fra Ardupilot
+
+        # sub_gps = rospy.Subscriber(
+        #     "gps/fix", NavSatFix, self.print_gps, queue_size=1
+        # )  # FakeGPS
 
         self.rate = rospy.Rate(2)
 
