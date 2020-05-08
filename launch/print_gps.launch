@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="print_gps" type="print_gps.py" name="Print_GPS"  output="screen">
+  </node>
+</launch>
