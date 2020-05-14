@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import rospy
+import requests
 from sensor_msgs.msg import NavSatFix
 
 
@@ -21,24 +22,8 @@ class Print_gps:
         self.rate = rospy.Rate(2)
 
     def print_gps(self, msg_gps):
-        print("\nGPS data:")
-        print("\tTidsstempel:")
-        print("\t\tsekunder:", msg_gps.header.stamp.secs)
-        print("\t\tnanosekunder:", msg_gps.header.stamp.nsecs)
-        print(
-            "\tbreddegrad:", msg_gps.latitude
-        )  # Positivt tall er nord for ekvator, negativt er sør
-        print(
-            "\tlengdegrad:", msg_gps.longitude
-        )  # Positivt tall er øst for Greenwich, negativt vest
-        print(
-            "\thøyde:".decode("utf-8"), msg_gps.altitude
-        )  #  NaN hvis ingen høyde er tilgjengelig
-        print("\tstatus gps:", msg_gps.status.status, end="")
         if msg_gps.status.status >= 0:
-            print(" -- OK")
-        else:
-            print(" -- ikke fått gps fix".decode("utf-8"))
+            requests.post("http://app:5000/api/drones/0/position", json={"latitude": msg_gps.latitude, "longitude": msg_gps.longitude, "altitude": msg_gps.altitude})
 
 
 if __name__ == "__main__":
